@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Product} from '../models';
 import {ProductRepository} from '../repositories';
@@ -23,8 +17,8 @@ import {ProductRepository} from '../repositories';
 export class ProductsController {
   constructor(
     @repository(ProductRepository)
-    public productRepository : ProductRepository,
-  ) {}
+    public productRepository: ProductRepository,
+  ) { }
 
   @post('/products')
   @response(200, {
@@ -147,4 +141,16 @@ export class ProductsController {
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.productRepository.deleteById(id);
   }
+
+  @get('/products/number-of-products/{id}')
+  @response(200, {
+    description: 'change the status of user'
+  })
+  async teacherclasses(
+    @param.path.number('id') id: number,
+  ): Promise<any> {
+    return this.productRepository.find({where: {categoryId: id}});
+
+  }
+
 }
